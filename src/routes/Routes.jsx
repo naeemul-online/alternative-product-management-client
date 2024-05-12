@@ -31,7 +31,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/queries',
-        element: <Queries></Queries>
+        element: <Queries></Queries>,
+        loader: () => fetch(`${import.meta.env.VITE_API_URL}/products`)
       },
       {
         path: '/recommendations-for-me',
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: '/my-queries',
         element: <PrivateRoutes><MyQueries></MyQueries></PrivateRoutes>,
-        loader: () => fetch(`${import.meta.env.VITE_API_URL}/products`)
+        // loader: () => fetch(`${import.meta.env.VITE_API_URL}//my-queries/:email`)
       },
       {
         path: '/add-queries',
