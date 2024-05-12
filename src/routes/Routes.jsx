@@ -9,6 +9,7 @@ import RecommendationsForMe from "../Pages/RecommendationsForMe/RecommendationsF
 import MyQueries from "../Pages/MyQueries/MyQueries";
 import MyRecommendations from "../Pages/MyRecommendations/MyRecommendations";
 import PrivateRoutes from "./PrivateRoutes";
+import AddQueries from "../Pages/MyQueries/AddQueries";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/my-queries',
-        element: <PrivateRoutes><MyQueries></MyQueries></PrivateRoutes>
+        element: <PrivateRoutes><MyQueries></MyQueries></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_API_URL}/products`)
+      },
+      {
+        path: '/add-queries',
+        element:<AddQueries></AddQueries>
       },
       {
         path: '/my-recommendations',
