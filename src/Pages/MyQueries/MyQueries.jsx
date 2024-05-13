@@ -3,6 +3,8 @@ import QueryCard from "./QueryCard";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const MyQueries = () => {
   const {user} = useContext(AuthContext);
@@ -14,21 +16,35 @@ const MyQueries = () => {
     
   }, [user])
 
+
   const getData = async() =>{
     const {data} = await axios(`${import.meta.env.VITE_API_URL}/products/${user.email}`)
     // console.log(data)
     setProducts(data)
 }
 
+const handleDelete = async (id) => {
+    console.log("delete", id)
+    try {
+        const{data} = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${id}`)
+        console.log(data)
+        toast.success('Delete successfully')
+        getData();
+    } catch (err){
+        // console.log(err.message);
+        toast.error(err.message)
+    }
+
+  }
 
   return (
     <div>
       <AddQueryBanner></AddQueryBanner>
-      <h2>Product length: {products.length}</h2>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-12">
         {   
-            products.length<0 ? <p>Not found. Please add queries</p> :
-            products.map(product => <QueryCard key={product._id} query={product} getData={getData}></QueryCard>)
+            products.length === 0 ? <p>Queries Not found. Please <Link to="/add-queries" className="text-blue-500">Add queries</Link> </p> :
+            products.map(product => <QueryCard key={product._id} query={product} getData={handleDelete}></QueryCard>)
         }
 
      

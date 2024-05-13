@@ -1,26 +1,14 @@
-import axios from 'axios';
+// import axios from 'axios';
 import PropTypes from 'prop-types'; // ES6
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 const QueryCard = ({ query, getData }) => {    
   const { productName, productBrand, imageUrl, queryTitle, boycottingReason, recommendationCount, _id } = query;
-  console.log(getData)
+//   console.log(getData)
 
 
-  const handleDelete = async (id) => {
-    console.log("delete", id)
-    try {
-        const{data} = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${id}`)
-        console.log(data)
-        toast.success('Delete successfully')
-        getData();
-    } catch (err){
-        // console.log(err.message);
-        toast.error(err.message)
-    }
-
-  }
+ 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
       <img className="w-full h-48 object-cover" src={imageUrl} alt={productName} />
@@ -37,10 +25,10 @@ const QueryCard = ({ query, getData }) => {
             <Link to={`/query/${query.id}`} className="text-blue-600 hover:underline">
               View Details
             </Link>
-            <Link to={`/query/${query.id}/update`} className="text-green-600 hover:underline">
+            <Link to={`/update/${_id}`} className="text-green-600 hover:underline">
               Update
             </Link>
-            <button className="text-red-600 hover:underline" onClick={() => handleDelete(_id)}>
+            <button className="text-red-600 hover:underline" onClick={() => getData(_id)}>
               Delete
             </button>
           </div>

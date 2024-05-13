@@ -10,6 +10,7 @@ import MyQueries from "../Pages/MyQueries/MyQueries";
 import MyRecommendations from "../Pages/MyRecommendations/MyRecommendations";
 import PrivateRoutes from "./PrivateRoutes";
 import AddQueries from "../Pages/MyQueries/AddQueries";
+import UpdateQueries from "../Pages/MyQueries/UpdateQueries";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,12 @@ const router = createBrowserRouter([
       {
         path: '/my-queries',
         element: <PrivateRoutes><MyQueries></MyQueries></PrivateRoutes>,
-        // loader: () => fetch(`${import.meta.env.VITE_API_URL}//my-queries/:email`)
+        // loader: () => fetch(`${import.meta.env.VITE_API_URL}/my-queries/:email`)
+      },
+      {
+        path: '/update/:id',
+        element:<UpdateQueries></UpdateQueries>,
+        loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/update/${params.id}`)
       },
       {
         path: '/add-queries',

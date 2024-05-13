@@ -1,31 +1,37 @@
 import { useContext, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
-import axios from 'axios';
+import DatePicker from "react-datepicker";
+import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
+const UpdateQueries = () => {
+  const product = useLoaderData();
+  const { user} = useContext(AuthContext);
+  const [startDate, setStartDate] = useState(new Date() || new Date());
+  const navigate = useNavigate();
+  // console.log(product)
+  const {
+    productName,
+    productBrand,
+    productImage,
+    queryTitle,
+    boycottingReason,
+    _id
+  } = product;
+  console.log(_id)
 
-
-const AddQueries = () => {
-  const { user } = useContext(AuthContext); 
-  const navigate = useNavigate() 
-
-  const [startDate, setStartDate] = useState(new Date());
-  
-
-
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.target
-    const productName = form.productName.value
-    const productBrand = form.productBrand.value
-    const productImage = form.productImage.value
-    const queryTitle = form.queryTitle.value
-    const boycottingReason = form.boycottingReason.value
-    const currentDate = startDate
+    const form = e.target;
+    const productName = form.productName.value;
+    const productBrand = form.productBrand.value;
+    const productImage = form.productImage.value;
     
+    const queryTitle = form.queryTitle.value;
+    const boycottingReason = form.boycottingReason.value;
+    const currentDate = startDate;
+
     const formData = {
       productName,
       productBrand,
@@ -33,22 +39,24 @@ const AddQueries = () => {
       queryTitle,
       boycottingReason,
       currentDate,
-    //   recommendationCount,
-      
       user: {
         email: user?.email,
         name: user?.displayName,
-        photo: user?.photoURL
-      }
+        photo: user?.photoURL,
+      },
     };
 
     try {
-        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/add-queries`, formData  )
-        console.log(data)
-        toast.success('Queries added successfully')
-        navigate('/my-queries')
-    } catch (err){
-        console.log(err)
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/update/${_id}`,
+        formData
+      );
+      console.log(data);
+      toast.success("Queries updated successfully");
+      navigate("/my-queries");
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
     }
     // Here you can send the form data to your server
     // console.log(formData);
@@ -56,7 +64,7 @@ const AddQueries = () => {
 
   return (
     <div className="container mx-auto p-8">
-      <h2 className="text-2xl font-bold mb-8 text-center">Add Query</h2>
+      <h2 className="text-2xl font-bold mb-8 text-center">Update Query</h2>
       <div>
         <form
           onSubmit={handleSubmit}
@@ -72,6 +80,7 @@ const AddQueries = () => {
                 Product Name:
               </label>
               <input
+              defaultValue={productName}
                 type="text"
                 id="productName"
                 name="productName"
@@ -88,6 +97,7 @@ const AddQueries = () => {
                 Product Brand:
               </label>
               <input
+              defaultValue={productBrand}
                 type="text"
                 id="productBrand"
                 name="productBrand"
@@ -104,6 +114,7 @@ const AddQueries = () => {
                 Product Image-URL:
               </label>
               <input
+                defaultValue={productImage}
                 type="url"
                 id="productImage"
                 name="productImage"
@@ -120,6 +131,7 @@ const AddQueries = () => {
                 Query Title:
               </label>
               <input
+              defaultValue={queryTitle}
                 type="text"
                 id="queryTitle"
                 name="queryTitle"
@@ -136,6 +148,7 @@ const AddQueries = () => {
                 Boycotting Reason:
               </label>
               <textarea
+              defaultValue={boycottingReason}
                 id="boycottingReason"
                 name="boycottingReason"
                 rows="4"
@@ -149,7 +162,10 @@ const AddQueries = () => {
 
           <div>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 User Email:
               </label>
               <input
@@ -164,7 +180,10 @@ const AddQueries = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Name:
               </label>
               <input
@@ -179,7 +198,10 @@ const AddQueries = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="image"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Image:
               </label>
               <input
@@ -214,7 +236,7 @@ const AddQueries = () => {
               type="submit"
               className="py-2 px-4 bg-blue-500 w-full  text-white rounded-md"
             >
-              Add Queries
+              Update Queries
             </button>
           </div>
         </form>
@@ -223,4 +245,4 @@ const AddQueries = () => {
   );
 };
 
-export default AddQueries;
+export default UpdateQueries;
