@@ -7,16 +7,20 @@ import toast from "react-hot-toast";
 
 const UpdateQueries = () => {
   const product = useLoaderData();
+  console.log(product)
   const { user} = useContext(AuthContext);
-  const [startDate, setStartDate] = useState(new Date() || new Date());
+  const [startDate, setStartDate] = useState(new Date() || new Date(currentDate));
   const navigate = useNavigate();
   // console.log(product)
   const {
     productName,
     productBrand,
-    productImage,
+   imageUrl,
     queryTitle,
     boycottingReason,
+    currentDate,
+    
+    
     _id
   } = product;
   console.log(_id)
@@ -26,7 +30,7 @@ const UpdateQueries = () => {
     const form = e.target;
     const productName = form.productName.value;
     const productBrand = form.productBrand.value;
-    const productImage = form.productImage.value;
+    const imageUrl = form.productImage.value;
     
     const queryTitle = form.queryTitle.value;
     const boycottingReason = form.boycottingReason.value;
@@ -35,7 +39,7 @@ const UpdateQueries = () => {
     const formData = {
       productName,
       productBrand,
-      productImage,
+      imageUrl,
       queryTitle,
       boycottingReason,
       currentDate,
@@ -114,7 +118,7 @@ const UpdateQueries = () => {
                 Product Image-URL:
               </label>
               <input
-                defaultValue={productImage}
+                defaultValue={imageUrl}
                 type="url"
                 id="productImage"
                 name="productImage"
@@ -222,8 +226,7 @@ const UpdateQueries = () => {
               >
                 Date and Time:
               </label>
-              <DatePicker
-              
+              <DatePicker                       
                 className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}

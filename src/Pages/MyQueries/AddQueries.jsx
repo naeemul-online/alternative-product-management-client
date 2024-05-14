@@ -57,10 +57,10 @@ const AddQueries = () => {
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-2xl font-bold mb-8 text-center">Add Query</h2>
-      <div>
+  
         <form
           onSubmit={handleSubmit}
-          className="max-w-xl mx-auto md:grid  md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md"
+          className="max-w-xl mx-auto grid  md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md"
         >
           {/* form input */}
           <div>
@@ -128,22 +128,9 @@ const AddQueries = () => {
               />
             </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="boycottingReason"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Boycotting Reason:
-              </label>
-              <textarea
-                id="boycottingReason"
-                name="boycottingReason"
-                rows="4"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              ></textarea>
-            </div>
+           
           </div>
+
 
           {/* user info */}
 
@@ -208,6 +195,21 @@ const AddQueries = () => {
               />
             </div>
           </div>
+          <div className="mb-4 col-span-2">
+              <label
+                htmlFor="boycottingReason"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Boycotting Reason:
+              </label>
+              <textarea
+                id="boycottingReason"
+                name="boycottingReason"
+                rows="4"                
+                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+                required
+              ></textarea>
+            </div>
 
           <div className="text-center col-span-2">
             <button
@@ -218,7 +220,7 @@ const AddQueries = () => {
             </button>
           </div>
         </form>
-      </div>
+     
     </div>
   );
 };

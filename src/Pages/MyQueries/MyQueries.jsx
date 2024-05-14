@@ -24,7 +24,17 @@ const MyQueries = () => {
 }
 
 const handleDelete = async (id) => {
+
     console.log("delete", id)
+
+      // Ask for confirmation before deleting
+  const confirmDelete = window.confirm('Are you sure you want to delete this query?');
+
+  if (!confirmDelete) {
+    return; // If the user cancels, do nothing
+  }
+
+  
     try {
         const{data} = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${id}`)
         console.log(data)
@@ -43,7 +53,7 @@ const handleDelete = async (id) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-12">
         {   
-            products.length === 0 ? <p>Queries Not found. Please <Link to="/add-queries" className="text-blue-500">Add queries</Link> </p> :
+            products.length === 0 ? <p>Queries Not found. Please <Link to="/add-queries"><button className="btn">Add queries</button></Link> </p> :
             products.map(product => <QueryCard key={product._id} query={product} getData={handleDelete}></QueryCard>)
         }
 

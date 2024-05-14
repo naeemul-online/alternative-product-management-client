@@ -22,7 +22,7 @@ const QueryCard = ({ query, getData }) => {
             <span className="text-gray-600">Recommendation Count: {recommendationCount}</span>
           </div>
           <div className="flex space-x-2">
-            <Link to={`/query/${query.id}`} className="text-blue-600 hover:underline">
+            <Link to={`/view-details/${_id}`} className="text-blue-600 hover:underline">
               View Details
             </Link>
             <Link to={`/update/${_id}`} className="text-green-600 hover:underline">
