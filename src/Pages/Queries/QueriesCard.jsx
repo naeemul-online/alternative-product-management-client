@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'; // ES6
 import { Link } from 'react-router-dom';
 
 const QueriesCard = ({query}) => {
-    console.log(query)
+    // console.log(query)
     const { productName, productBrand, imageUrl, queryTitle, boycottingReason, recommendationCount, currentDate, user, _id } = query;
     
 
@@ -20,7 +20,7 @@ const QueriesCard = ({query}) => {
         <p><span className='font-bold'>Product:</span> {productName}</p>
         <p><span className='font-bold'>Brand</span>: {productBrand}</p>
         <p><span className='font-bold'>Alternation Reason:</span> {boycottingReason}</p>
-        <p><span className='font-bold'>Date Posted:</span> {currentDate}</p>
+        <p><span className='font-bold'>Date Posted:</span> {new Date(currentDate).toLocaleDateString()}</p>
        <div>
        <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
             <li className="py-3 sm:py-4">

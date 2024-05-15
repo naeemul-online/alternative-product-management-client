@@ -1,14 +1,16 @@
-import {  useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { AuthContext } from "../../provider/AuthProvider";
-
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const ViewDetails = () => {
-  const {user} = useContext(AuthContext)
-  console.log(user)   
+  const { user } = useContext(AuthContext);
+  // console.log(user)
   const data = useLoaderData();
-  console.log(data)  
+  // console.log(data)
+  const [recommends, setRecommends] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const {
     _id,
@@ -19,96 +21,161 @@ const ViewDetails = () => {
     boycottingReason,
     recommendationCount,
     currentDate,
-    
-  } = data || {}
-
-
+  } = data || {};
 
   const handleAddRecommendation = async (e) => {
     e.preventDefault();
-    console.log('clicked')
+    if (user?.email === data?.user?.email)
+      return toast.error("Action not permitted");
     const form = e.target;
     const queryId = _id;
     const queryTitle = form.recommendTitle.value;
     const productName = form.productName.value;
     const productImage = form.productImage.value;
-    const recommendationReason = form.recommendationReason.value; 
-    const  userEmail = data?.user?.email;
+    const recommendationReason = form.recommendationReason.value;
+    const userEmail = data?.user?.email;
     const userName = data?.user?.name;
     const recommenderEmail = user?.email;
     const recommenderName = user?.displayName;
     const currentTimeStamp = startDate;
-  
 
     const formData = {
       queryId,
       queryTitle,
       productName,
       productImage,
-      recommendationReason, 
+      recommendationReason,
       userEmail,
       userName,
       recommenderEmail,
       recommenderName,
-      currentTimeStamp
+      currentTimeStamp,
     };
 
-    console.log(formData);
-
-    // try {
-    //     const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/add-queries`, formData  )
-    //     console.log(data)
-    //     toast.success('Queries added successfully')
-    //     navigate('/my-queries')
-    // } catch (err){
-    //     console.log(err)
-    // }
-    // Here you can send the form data to your server
     // console.log(formData);
+
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/recommend`,
+        formData
+      );
+      // console.log(data)
+      toast.success("Recommended successfully");
+      // console.log(data)
+    } catch (err) {
+      // console.log(err)
+    }
   };
+
+  useEffect(() => {
+    const getRecommends = async () => {
+      const { data } = await axios(
+        `${import.meta.env.VITE_API_URL}/recommend/${user?.email}`
+      );
+      // console.log(data)
+      setRecommends(data);
+    };
+    getRecommends();
+  }, [recommends]);
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
-      <div className="border m-4 p-4">
-        <img
-          className="w-full h-48 object-cover"
-          src={imageUrl}
-          alt={productName}
-        />
-        <p className="text-gray-700 mb-4">{queryTitle}</p>
-        <h3 className="text-xl font-semibold mb-2">{productName}</h3>
-        <p className="text-gray-600 mb-2">Brand: {productBrand}</p>
-        <p className="text-gray-700 mb-4">{boycottingReason}</p>
-        <p className="text-gray-700 mb-4">{currentDate}</p>
-        <p>
-          <span className="font-bold">Date Posted:</span> {currentDate}
-        </p>
-        <div>
-          <ul
-            role="list"
-            className="divide-y divide-gray-200 dark:divide-gray-700"
-          >
-            <li className="py-3 sm:py-4">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <img className="w-8 h-8 rounded-full" src={user?.photo} />
+      <div className="flex flex-col md:flex-row">
+        <div className="border m-4 p-4 w-1/2">
+          <img
+            className="w-full h-48 object-cover"
+            src={imageUrl}
+            alt={productName}
+          />
+          <p className="text-gray-700 mb-4">{queryTitle}</p>
+          <h3 className="text-xl font-semibold mb-2">{productName}</h3>
+          <p className="text-gray-600 mb-2">Brand: {productBrand}</p>
+          <p className="text-gray-700 mb-4">{boycottingReason}</p>
+          <p className="text-gray-700 mb-4">{currentDate}</p>
+          <p>
+            <span className="font-bold">
+              Date Posted: {new Date(currentDate).toLocaleDateString()}
+            </span>
+          </p>
+          <div>
+            <ul
+              role="list"
+              className="divide-y divide-gray-200 dark:divide-gray-700"
+            >
+              <li className="py-3 sm:py-4">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={data?.user?.photo}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0 ms-4">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      {data?.user?.name}
+                    </p>
+                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                      {data?.user?.email}
+                    </p>
+                  </div>
+                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                    <p>Recommendations: {recommendationCount}</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0 ms-4">
-                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    {user?.name}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="w-1/2">
+          <div className="">
+            {recommends.map(
+              (p) => (
+                <div key={p._id} className="border-b-2 p-4">
+                  <div className="px-10 pt-10 w-96">
+                    <img src={p.productImage} alt="" />
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <div className="font-medium dark:text-white">
+                      <p>
+                        {p.recommenderName}
+                        <time className="block text-sm text-gray-500 dark:text-gray-400">
+                         Recommended Date:  {new Date(p.currentTimeStamp).toLocaleDateString()}
+                        </time>
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="mb-2 text-gray-500 dark:text-gray-400">
+                    This is my third Invicta Pro Diver. They are just fantastic
+                    value for money. This one arrived yesterday and the first
+                    thing I did was set the time, popped on an identical strap
+                    from another Invicta and went in the shower with it to test
+                    the waterproofing.... No problems.
                   </p>
-                  <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                    {user?.email}
-                  </p>
                 </div>
-                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  <p>Recommendations: {recommendationCount}</p>
-                </div>
-              </div>
-            </li>
-          </ul>
+              )
+
+              //   <div key={p._id} className=" border p-4 m-4 rounded ">
+              //   <div className="px-10 pt-10">
+              //     <img src={p.productImage} alt="User Avatar" className="avatar-image" />
+              //   </div>
+              //   <p>Posted date: {p.currentTimeStamp}</p>
+
+              //   <div className="comment-text">
+              //     <p className="text-xl font-bold">{p.queryTitle}</p>
+              //     <p className="text-2xl">{p.recommendationReason}</p>
+              //     <div className="comment-user-info flex flex-col my-4">
+              //       <span>{p.recommenderName}</span>
+              //       <span>{p.recommenderEmail}</span>
+              //     </div>
+              //   </div>
+              // </div>
+            )}
+          </div>
         </div>
       </div>
+
       <div className="p-4">
         {/* recommendation form */}
         <h2 className="text-center text-3xl font-bold">
@@ -118,103 +185,101 @@ const ViewDetails = () => {
 
         <form
           onSubmit={handleAddRecommendation}
-          className="  md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md"
+          className="gap-4 grid md:grid-cols-2 bg-white p-6 rounded-lg shadow-md"
         >
           {/* form input */}
-            <div className="mb-4">
-              <label
-                htmlFor="recommendTitle"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Recommend Title:
-              </label>
-              <input
-                type="text"
-                id="recommendTitle"
-                name="recommendTitle"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="productName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Product Name:
-              </label>
-              <input
-                type="text"
-                id="productName"
-                name="productName"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="productBrand"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Product Brand:
-              </label>
-              <input
-                type="text"
-                id="productBrand"
-                name="productBrand"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="productImage"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Product Image-URL:
-              </label>
-              <input
-                type="url"
-                id="productImage"
-                name="productImage"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              />
-            </div>
-            <div className="mb-4 col-span-2">
-              <label
-                htmlFor="recommendationReason"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Recommendation Reason:
-              </label>
-              <textarea
-                id="recommendationReason"
-                name="recommendationReason"
-                rows="4"
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                required
-              ></textarea>
-            </div>
-        
           <div className="mb-4">
-              <label
-                htmlFor="queryTitle"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date and Time:
-              </label>
-              <DatePicker
-              
-                className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-              />
-            </div>
+            <label
+              htmlFor="recommendTitle"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Recommend Title:
+            </label>
+            <input
+              type="text"
+              id="recommendTitle"
+              name="recommendTitle"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="productName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Name:
+            </label>
+            <input
+              type="text"
+              id="productName"
+              name="productName"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              required
+            />
+          </div>
 
-          {/* user info */}
+          <div className="mb-4">
+            <label
+              htmlFor="productBrand"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Brand:
+            </label>
+            <input
+              type="text"
+              id="productBrand"
+              name="productBrand"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="productImage"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Image-URL:
+            </label>
+            <input
+              type="url"
+              id="productImage"
+              name="productImage"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="recommendationReason"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Recommendation Reason:
+            </label>
+            <textarea
+              id="recommendationReason"
+              name="recommendationReason"
+              rows="4"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              required
+            ></textarea>
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="queryTitle"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date and Time:
+            </label>
+            <DatePicker
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 border"
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+            />
+          </div>
 
           <div className="text-center col-span-2">
             <button

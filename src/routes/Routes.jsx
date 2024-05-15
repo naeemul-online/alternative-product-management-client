@@ -12,12 +12,13 @@ import PrivateRoutes from "./PrivateRoutes";
 import AddQueries from "../Pages/MyQueries/AddQueries";
 import UpdateQueries from "../Pages/MyQueries/UpdateQueries";
 import ViewDetails from "../Pages/MyQueries/ViewDetails";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Main></Main>,
-    // errorElement: <ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: '/',
