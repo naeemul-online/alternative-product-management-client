@@ -3,6 +3,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 // import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
@@ -30,7 +31,7 @@ const {
 } = useForm();
 
 // register form submit handler
-const onSubmit = (data) => {
+const onSubmit = async(data) => {
   const { email, password } = data;
 
  if (!/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password)){
@@ -38,17 +39,40 @@ const onSubmit = (data) => {
     return;
   }
 
-  createUser(email, password)
-    .then((result) => {
-      // alert("User created successfully");
-      toast.success("Account created successfully");       
-      if (result.user) {
+  try{
+    const result = await createUser(email, password)
+    console.log(result?.user);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      toast.success("Account created successfully");
+      if (result?.user) {
         navigate(from);
-      }
-    })
-    .catch((error) => {
-      setErrorRegister(error.message);
-    });
+      } 
+
+  }catch(err){
+    console.log(err.message)
+    setErrorRegister(err.message)
+  }
+
+  // createUser(email, password)
+  //   .then((result) => {
+  //     // alert("User created successfully");
+  //     toast.success("Account created successfully");       
+  //     if (result.user) {
+  //       navigate(from);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     setErrorRegister(error.message);
+  //   });
 };
 
 

@@ -18,7 +18,7 @@ const MyQueries = () => {
 
 
   const getData = async() =>{
-    const {data} = await axios(`${import.meta.env.VITE_API_URL}/products/${user.email}`)
+    const {data} = await axios(`${import.meta.env.VITE_API_URL}/products/${user.email}`, {withCredentials: true})
     // console.log(data)
     setProducts(data)
 }

@@ -40,11 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/recommendations-for-me',
-        element: <PrivateRoutes><RecommendationsForMe></RecommendationsForMe></PrivateRoutes>
+        element: <RecommendationsForMe></RecommendationsForMe>
       },
       {
         path: '/my-queries',
-        element: <PrivateRoutes><MyQueries></MyQueries></PrivateRoutes>,
+        element: <MyQueries></MyQueries>,
         // loader: () => fetch(`${import.meta.env.VITE_API_URL}/my-queries/:email`)
       },
       {
@@ -59,11 +59,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/add-queries',
-        element:<AddQueries></AddQueries>
+        element:<PrivateRoutes><AddQueries></AddQueries></PrivateRoutes>
       },
       {
         path: '/my-recommendations',
-        element: <PrivateRoutes><MyRecommendations></MyRecommendations></PrivateRoutes>
+        element:<MyRecommendations></MyRecommendations>
       },
     ]
   }

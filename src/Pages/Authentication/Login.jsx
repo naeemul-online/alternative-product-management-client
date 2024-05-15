@@ -3,11 +3,12 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, user } = useContext(AuthContext);
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
 
-  console.log(user);
+  // console.log(user);
 
   const [errorRegister, setErrorRegister] = useState();
   // const [showPassword, setShowPassword] = useState(false);
@@ -26,17 +27,39 @@ const Login = () => {
 
   //login with google handler
 
-  const handleSocialLogin = () => {
-    signInWithGoogle().then((result) => {
+  const handleSocialLogin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      console.log(result?.user);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+
       toast.success("You are login successfully");
+
       if (result.user) {
         navigate(from);
       }
-    });
+    } catch (err) {
+      console.log(err.message);
+    }
+    // signInWithGoogle().then((result) => {
+    //   toast.success("You are login successfully");
+    //   if (result.user) {
+    //     navigate(from);
+    //   }
+    // });
   };
 
   // login handler
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     const { email, password } = data;
 
     if (!/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password)) {
@@ -46,17 +69,42 @@ const Login = () => {
       return;
     }
 
-    signIn(email, password)
-      .then((result) => {
-        // alert("User created successfully");
-        toast.success("Login successfully");
-        if (result.user) {
+    try{
+      const result = await signIn(email, password)
+      console.log(result?.user);
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          {
+            email: result?.user?.email,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(data);
+        if (result?.user) {
           navigate(from);
         }
-      })
-      .catch((error) => {
-        setErrorRegister(error.message);
-      });
+
+    } catch(err){
+      console.log(err.message)
+      setErrorRegister(err.message)
+    }
+  
+
+    // signIn(email, password)
+    //   .then((result) => {
+    //     // alert("User created successfully");
+        
+    //     toast.success("Login successfully");
+    //     if (result.user) {
+    //       navigate(from);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setErrorRegister(error.message);
+    //   });
+
   };
 
   return (

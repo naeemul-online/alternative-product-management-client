@@ -48,28 +48,36 @@ const Navbar = () => {
             </Link>
           </li>         
           <li className="flex">
-            <Link
+            {
+              user && <Link
               to="/recommendations-for-me"
               className="flex items-center px-4 -mb-1 border-b-2 dark:border-"
             >
              Recommendations For Me</Link>
+            }
+            
           </li>
           
           <li className="flex">
-            <Link
-              to="/my-queries"
-              className="flex items-center px-4 -mb-1 border-b-2 dark:border-"
-            >
-            My Queries
-            </Link>
+           {
+            user &&  <Link
+            to="/my-queries"
+            className="flex items-center px-4 -mb-1 border-b-2 dark:border-"
+          >
+          My Queries
+          </Link>
+           }
           </li>
           <li className="flex">
-            <Link
+            {
+              user && <Link
               to="/my-recommendations"
               className="flex items-center px-4 -mb-1 border-b-2 dark:border-"
             >
             My recommendations
             </Link>
+            
+            }
           </li>
         </ul>
 
