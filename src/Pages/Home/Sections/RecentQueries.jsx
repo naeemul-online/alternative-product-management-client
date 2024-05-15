@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import QueriesCard from "../../Queries/QueriesCard";
+import RecentQueriesCard from "./RecentQueriesCard";
 
 const RecentQueries = () => {
   const [recentQueries, setRecentQueries] = useState([]);
@@ -18,16 +18,21 @@ const RecentQueries = () => {
 
   return (
     <div className="bg-gray-200 py-8">
-      <h2 className="text-3xl text-center font-bold my-6  md:my-12">Recent Queries</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center py-8">
+        Recent Queries
+      </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12  p-12">
         {recentQueries.length < 0 ? (
           <p>Not found. Please add queries</p>
         ) : (
           recentQueries
             .slice(0, 6)
             .map((product) => (
-              <QueriesCard key={product._id} query={product}></QueriesCard>
+              <RecentQueriesCard
+                key={product._id}
+                query={product}
+              ></RecentQueriesCard>
             ))
         )}
       </div>
