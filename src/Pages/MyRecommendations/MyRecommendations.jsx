@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const MyRecommendations = () => {
@@ -17,6 +18,37 @@ const MyRecommendations = () => {
         };
         getRecommends();
       }, [recommends]);
+     
+
+
+      const handleDeleteRecommend = async (id) => {
+        // console.log(id)
+        // console.log('clicked')
+        const confirmDelete = window.confirm('Are you sure you want to delete this query?');
+        if (!confirmDelete) {
+            return; // If the user cancels, do nothing
+          }
+        
+          
+            try {
+                const{data} = await axios.delete(`${import.meta.env.VITE_API_URL}/my-recommend/${id}`)
+                console.log(data)
+                toast.success('Delete successfully')
+            } catch (err){
+                // console.log(err.message);
+                toast.error(err.message)
+            }
+
+
+
+
+      }
+          
+            
+        
+   
+
+   
 
       
 
@@ -53,7 +85,7 @@ const MyRecommendations = () => {
             </td>
             <th>
               <button className="btn btn-secondary btn-xs">Edit</button>
-              <button className="btn btn-warning btn-xs">Delete</button>
+              <button onClick={()=>handleDeleteRecommend(p._id)} className="btn btn-warning btn-xs">Delete</button>
             </th>      
           </tr> )
     }    

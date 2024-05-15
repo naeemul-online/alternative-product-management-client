@@ -56,10 +56,11 @@ const ViewDetails = () => {
 
     try {
       const { data } = await axios.post(
+      
         `${import.meta.env.VITE_API_URL}/recommend`,
         formData
       );
-      // console.log(data)
+      console.log(data)
       toast.success("Recommended successfully");
       // console.log(data)
     } catch (err) {
@@ -156,21 +157,7 @@ const ViewDetails = () => {
                 </div>
               )
 
-              //   <div key={p._id} className=" border p-4 m-4 rounded ">
-              //   <div className="px-10 pt-10">
-              //     <img src={p.productImage} alt="User Avatar" className="avatar-image" />
-              //   </div>
-              //   <p>Posted date: {p.currentTimeStamp}</p>
-
-              //   <div className="comment-text">
-              //     <p className="text-xl font-bold">{p.queryTitle}</p>
-              //     <p className="text-2xl">{p.recommendationReason}</p>
-              //     <div className="comment-user-info flex flex-col my-4">
-              //       <span>{p.recommenderName}</span>
-              //       <span>{p.recommenderEmail}</span>
-              //     </div>
-              //   </div>
-              // </div>
+             
             )}
           </div>
         </div>
