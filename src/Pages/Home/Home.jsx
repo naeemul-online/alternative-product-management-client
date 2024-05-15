@@ -1,5 +1,6 @@
 import Banner from "./Banner";
 import LatestDeals from "./Sections/LatestDeals";
+import RecentQueries from "./Sections/RecentQueries";
 import TopPicks from "./Sections/TopPicks";
 import Slider from "./Slider";
 
@@ -9,6 +10,7 @@ const Home = () => {
         <div>
             <Slider></Slider>
             <Banner></Banner>
+            <RecentQueries></RecentQueries>
             <LatestDeals></LatestDeals>
             <TopPicks></TopPicks>
         </div>

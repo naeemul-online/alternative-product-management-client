@@ -44,6 +44,11 @@ const MyRecommendations = () => {
 
       }
           
+
+      // handle modified
+      const handleModifiedRecommend = () => {
+
+      }
             
         
    
@@ -84,11 +89,11 @@ const MyRecommendations = () => {
               <br/>
             </td>
             <th>
-              <button className="btn btn-secondary btn-xs">Edit</button>
+              <button onClick={handleModifiedRecommend} className="btn btn-secondary btn-xs">Edit</button>
               <button onClick={()=>handleDeleteRecommend(p._id)} className="btn btn-warning btn-xs">Delete</button>
             </th>      
           </tr> )
-    }    
+    }     
     </tbody>
     {/* foot */}
    

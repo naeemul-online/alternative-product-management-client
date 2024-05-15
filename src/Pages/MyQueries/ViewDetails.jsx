@@ -148,11 +148,7 @@ const ViewDetails = () => {
                   </div>
 
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                    This is my third Invicta Pro Diver. They are just fantastic
-                    value for money. This one arrived yesterday and the first
-                    thing I did was set the time, popped on an identical strap
-                    from another Invicta and went in the shower with it to test
-                    the waterproofing.... No problems.
+                    {p.recommendationReason}
                   </p>
                 </div>
               )
