@@ -38,6 +38,7 @@ const ViewDetails = () => {
     const recommenderEmail = user?.email;
     const recommenderName = user?.displayName;
     const currentTimeStamp = startDate;
+    
 
     const formData = {
       queryId,
@@ -50,6 +51,7 @@ const ViewDetails = () => {
       recommenderEmail,
       recommenderName,
       currentTimeStamp,
+      recommendationCount
     };
 
     // console.log(formData);

@@ -53,7 +53,7 @@ const RecommendationsForMe = () => {
                     <br/>
                   </td>
                   <th>
-                    <button className="btn btn-warning btn-xs">Delete</button>
+                    <button className="btn btn-warning btn-xs">Read</button>
                   </th>      
                 </tr> )
           }    
