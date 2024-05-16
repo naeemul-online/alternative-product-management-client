@@ -58,7 +58,7 @@ const ViewDetails = () => {
       const { data } = await axios.post(
       
         `${import.meta.env.VITE_API_URL}/recommend`,
-        formData
+        formData,
       );
       console.log(data)
       toast.success("Recommended successfully");
