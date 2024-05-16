@@ -27,7 +27,7 @@ const Slider = () => {
           <div>
             <img
               className="object-fit w-full lg:h-[600px]"
-              src="https://imgbb.host/images/7yXPZ.jpeg"
+              src="https://i.ibb.co/2YmsT5L/pexels-burst-374016.jpg"
               alt="slide-1"
             />
           </div>
@@ -35,7 +35,7 @@ const Slider = () => {
         <SwiperSlide>
           <div>
             <img
-              src="https://imgbb.host/images/7yWRt.jpeg"
+              src="https://i.ibb.co/drpxBWN/pexels-burst-374631.jpg"
               alt="slide-2"
               className="object-fit w-full lg:h-[600px]"
             />
@@ -44,7 +44,7 @@ const Slider = () => {
         <SwiperSlide>
           <div>
             <img
-              src="https://imgbb.host/images/7yiuk.jpeg"
+              src="https://i.ibb.co/6ZSGfW6/pexels-n-voitkevich-8939307.jpg"
               alt="slide-3"
               className="object-fit w-full lg:h-[600px]"
             />
