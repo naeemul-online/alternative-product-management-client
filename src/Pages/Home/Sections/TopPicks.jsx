@@ -7,19 +7,19 @@ const TopPicks = () => {
     {
       id: 1,
       productName: 'Smartphone',
-      productImage: 'smartphone.jpg',
+      productImage: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTRjfKs4GXbqAmoVk_sqcxuFX0oj_KU4PEX0F2InpqfYOJeWqCGSWbfI0AzLXsd',
       description: 'The latest smartphone with advanced features and high-quality camera.',
     },
     {
       id: 2,
       productName: 'Laptop',
-      productImage: 'laptop.jpg',
+      productImage: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRcL8IOxxV1abVydN8Lnxex5jYjETbCiReXleFBYpMsOPxsb-YFvmGA9HY7fMd1',
       description: 'Powerful laptop with fast performance and sleek design.',
     },
     {
       id: 3,
       productName: 'Headphones',
-      productImage: 'headphones.jpg',
+      productImage: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQGw81wNbavwel-vUyFFU6GUzvNjg8s-fRwYeDass4n4A-OJ_rsUVKXVpFOvjCB',
       description: 'Premium headphones with noise-cancellation and superior sound quality.',
     },
   ];

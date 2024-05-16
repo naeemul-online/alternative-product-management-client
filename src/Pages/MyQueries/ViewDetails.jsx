@@ -130,7 +130,8 @@ const ViewDetails = () => {
           </div>
         </div>
 
-        <div className="w-1/2">
+        <div className="w-1/2  m-4 p-4">
+          <h2 className="text-center font-bold underline">Recommend Section:</h2>
           <div className="">
             {recommends.map(
               (p) => (
