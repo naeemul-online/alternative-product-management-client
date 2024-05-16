@@ -13,7 +13,7 @@ const RecentQueriesCard = ({ query }) => {
   } = query;
 
   return (
-    <div className="query-card border-2 flex flex-col flex-1 justify-between bg-white p-4 shadow-md rounded-lg">
+    <div className=" bg-white query-card border shadow-md p-4 rounded-xl flex flex-col flex-1 justify-between">
       <div className="query-card-column flex items-center justify-center">
         <img src={imageUrl} alt="Product" className="product-image" />
       </div>

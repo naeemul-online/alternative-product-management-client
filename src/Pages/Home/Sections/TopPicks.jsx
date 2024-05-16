@@ -28,7 +28,7 @@ const TopPicks = () => {
     <div className="bg-gray-100 py-8">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-4 text-center p-8">Top Picks</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {topPicks.map((product) => (
             <div key={product.id} className="bg-white p-4 shadow-md rounded-lg">
               <img src={product.productImage} alt={product.productName} className="w-full h-32 object-cover mb-4" />

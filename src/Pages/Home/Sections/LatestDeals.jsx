@@ -31,9 +31,9 @@ const LatestDeals = () => {
     <div className="bg-gray-200 py-8">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-4 text-center py-8">Latest Deals</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {latestDeals.map((deal) => (
-            <div key={deal.id} className="bg-white p-4 shadow-md rounded-lg">
+            <div key={deal.id} className="bg-white query-card border shadow-md p-4 rounded-xl flex flex-col flex-1 justify-between">
               <img src={deal.productImage} alt={deal.productName} className="w-full h-32 object-cover mb-4" />
               <h3 className="text-lg font-semibold mb-2">{deal.productName}</h3>
               <p className="text-gray-600 mb-2">Price: <span className="line-through">{deal.price}</span></p>
